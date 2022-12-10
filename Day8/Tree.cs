@@ -10,7 +10,28 @@ public record Tree(int X, int Y, int Height)
         var trees = isRow ? forest.GetRow(Y) : forest.GetColumn(X);
         var index = trees.IndexOf(this);
 
-        return afterIndex ? trees.Skip(index + 1) : trees.Take(index);
+        return afterIndex
+            ? trees.Skip(index + 1)
+            : trees.Take(index)
+                .Reverse();
+    }
+
+    public int DistanceToScenicTree(Direction direction, Forest forest)
+    {
+        var trees = DirectionTrees(direction, forest);
+        var distance = 0;
+
+        foreach (var tree in trees)
+        {
+            distance++;
+
+            if (tree.Height >= Height)
+            {
+                return distance;
+            }
+        }
+
+        return distance;
     }
 
     public bool TallerThanAll(IEnumerable<Tree> trees)
