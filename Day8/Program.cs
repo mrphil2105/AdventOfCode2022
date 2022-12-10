@@ -20,8 +20,10 @@ public static class Program
             {
                 var tree = forest.GetTree(x, y);
 
-                if (tree.TallerThanAll(tree.Left(forest)) || tree.TallerThanAll(tree.Right(forest)) ||
-                    tree.TallerThanAll(tree.Above(forest)) || tree.TallerThanAll(tree.Below(forest)))
+                if (tree.TallerThanAll(tree.DirectionTrees(Left, forest)) ||
+                    tree.TallerThanAll(tree.DirectionTrees(Right, forest)) ||
+                    tree.TallerThanAll(tree.DirectionTrees(Above, forest)) ||
+                    tree.TallerThanAll(tree.DirectionTrees(Below, forest)))
                 {
                     visible++;
                 }

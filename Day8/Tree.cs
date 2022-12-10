@@ -2,36 +2,15 @@ namespace Day8;
 
 public record Tree(int X, int Y, int Height)
 {
-    public IEnumerable<Tree> Left(Forest forest)
+    public IEnumerable<Tree> DirectionTrees(Direction direction, Forest forest)
     {
-        var row = forest.GetRow(Y);
-        var index = row.IndexOf(this);
+        var isRow = direction is Left or Right;
+        var afterIndex = direction is Right or Below;
 
-        return row.Take(index);
-    }
+        var trees = isRow ? forest.GetRow(Y) : forest.GetColumn(X);
+        var index = trees.IndexOf(this);
 
-    public IEnumerable<Tree> Right(Forest forest)
-    {
-        var row = forest.GetRow(Y);
-        var index = row.IndexOf(this);
-
-        return row.Skip(index + 1);
-    }
-
-    public IEnumerable<Tree> Above(Forest forest)
-    {
-        var column = forest.GetColumn(X);
-        var index = column.IndexOf(this);
-
-        return column.Take(index);
-    }
-
-    public IEnumerable<Tree> Below(Forest forest)
-    {
-        var column = forest.GetColumn(X);
-        var index = column.IndexOf(this);
-
-        return column.Skip(index + 1);
+        return afterIndex ? trees.Skip(index + 1) : trees.Take(index);
     }
 
     public bool TallerThanAll(IEnumerable<Tree> trees)
